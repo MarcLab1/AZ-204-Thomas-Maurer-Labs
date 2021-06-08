@@ -1,0 +1,15 @@
+#create app service plan (default sku is basic), islunux is false)
+az appservice plan create --name appserviceplan000 --resource-group rg-thomas-000 --sku FREE
+
+#create webapp
+az webapp create --name webappthomas000 --resource-group rg-thomas-000 --plan appserviceplan000 --runtime "DOTNETCORE|3.1"
+
+#publish a dotnet app into a zip file the can be deployed in Azure
+#you do this in the local folder where your app is
+dotnet publish .
+
+#deploy webapp
+az webapp deployment source config-zip --resource-group rg-thomas-000 --name webappthomas000 --src "F:\dev VS\SimpleWebApp\bin\Debug\netcoreapp3.1\publish\publish.zip"
+
+#deploy webapp with powershell
+Publish-AzWebapp -ResourceGroupName <group-name> -Name <app-name> -ArchivePath <zip-file-path>

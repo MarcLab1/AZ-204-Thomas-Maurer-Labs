@@ -1,0 +1,7 @@
+#Azure container instances
+
+#create a container
+az container create --resource-group rg-thomas-000 --name mycontainer --image mcr.microsoft.com/azuredocs/aci-helloworld 
+
+#check the status of the container
+az container show --resource-group rg-thomas-000 --name mycontainer --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" --out table

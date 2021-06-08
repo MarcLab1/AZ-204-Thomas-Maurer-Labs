@@ -1,0 +1,17 @@
+#Automate app settings with the Azure CLI
+
+set appname=webappthomas000
+set rg=rg-thomas-000
+
+#Assign a value to a application setting
+#This added setting shows up under Applicaiton Settings in the Portal
+ az webapp config appsettings set --name webappthomas000 --resource-group rg-thomas-000 --settings "Key1=Value1" "Key2=Value2"
+
+#Assign a value to a connection-string
+az webapp config connection-string set --name webappthomas000 --resource-group rg-thomas-000 --settings "dbConnection=jkhsdfikhewkjhkewkjh123" --connection-string-type=MYSQL 
+
+#Show all settings and their values
+az webapp config appsettings list --name <app-name> --resource-group <resource-group-name>
+
+#Remove one or more settings 
+az webapp config appsettings delete --name <app-name> --resource-group <resource-group-name> --setting-names {<names>}

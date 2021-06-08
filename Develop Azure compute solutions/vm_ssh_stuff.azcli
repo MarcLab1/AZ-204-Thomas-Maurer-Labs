@@ -1,0 +1,13 @@
+#vm_ssh_stuff
+
+#Create an SSH key pair in the ~/ssh directory
+ssh-keygen
+
+#--generate-ssh-keys option when creating a vm
+az vm create --name vm0010 --resource-group rg-thoms-000 --image UbuntuLTS --generate-ssh-keys 
+
+#use pre defined keys when creating a vm
+az vm create --name vm0010 --resource-group rg-thoms-000 --image UbuntuLTS  --admin-username azureuser --ssh-key-values mysshkey.pub
+
+#connect to vm via ssh
+ssh <fqdn or ipaddress>

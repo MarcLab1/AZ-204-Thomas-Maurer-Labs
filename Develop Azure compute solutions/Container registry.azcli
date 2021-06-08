@@ -1,0 +1,24 @@
+#Azure container registry
+#Create the acr
+az acr create --resource-group rg-containers-111 --name containerregistrymy111 --sku Basic
+
+#Log into the acr
+Az acr login –name containerregistrymy111
+
+#Can also log in to acr with Docker
+docker login containerregistrymy111.azurecr.io
+
+#Clone the git and create a folder locally
+git clone https://github.com/Azure-Samples/acr-build-helloworld-node.git
+
+#Build using ACR Tasks, tag and push in 1 step
+Az acr build –image ipcheck:v44 –registry containerregistrymy111 .
+
+#View repositories and images inside acr
+az acr repository list --name containerregistrymy111
+
+#Show tags inside repository image
+az acr repository show-tags --name containerregistrymy111 --repository ipcheck
+
+#Delete container image inside repo
+az acr repository delete --name containerregistrymy111 --image ipcheck:v44

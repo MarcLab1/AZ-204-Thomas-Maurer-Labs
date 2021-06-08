@@ -1,0 +1,17 @@
+#Create a namespace
+az servicebus namespace create --resource-group ContosoRG --name ContosoSBusNS --location eastus
+
+#Create a topic 
+Az servicebus topic create –namespace-name pluralsight –name testtopic –resource-group pluralsight
+
+#Delete a topic
+Az servicebus topic delete –namespace-name pluralsight –name testtopic 
+
+#Crete a queue
+Az servicebus queue create –namespace-name pluralsight –name testqueue –resource-group pluralsight
+
+#Delete a queue
+Az servicebus queue delete –namespace-name pluralsight –name testqueue
+
+#Get connection string for the namespace used to connect to the queue and send/receive messages
+az servicebus namespace authorization-rule keys list --resource-group rg-thomas-000 --namespace-name ContosoSBusNS --name RootManageSharedAccessKey --query primaryConnectionString --output tsv

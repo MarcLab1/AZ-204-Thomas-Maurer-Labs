@@ -1,0 +1,12 @@
+ az group create --name rg-event-8888 --location CanadaCentral
+
+ #Create a custom topic
+ az eventgrid topic create --name eventgridtopic1 --location CanadaCentral --resource-group rg-event-8888
+
+ #Get the keys
+ az eventgrid topic key list --name eventgridtopic1 --resource-group rg-event-8888
+
+ #create a sub
+ az eventgrid event-subscription create --source-resource-id "/subscriptions/444/resourceGroups/rg-event-8888/providers/Microsoft.EventGrid/topics/eventgridtopic1" --name "eventsub2" --endpoint-type "storagequeue" 
+ --endpoint "/subscriptions/444/resourceGroups/rg-thomas-000/providers/Microsoft.Storage/storageAccounts/stthomas000/queueServices/default/queues/queue2" 
+

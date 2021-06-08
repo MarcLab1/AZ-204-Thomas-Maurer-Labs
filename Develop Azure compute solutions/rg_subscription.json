@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+
+     {
+         "name": "rg-testing-123",
+         "type": "Microsoft.Resources/resourceGroups",
+         "apiVersion": "2019-10-01",
+         "location": "eastus",
+         "dependsOn": [
+         ],
+         "tags": {
+         }
+     }
+    ],
+    "outputs": {}
+}

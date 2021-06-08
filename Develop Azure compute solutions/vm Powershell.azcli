@@ -1,0 +1,22 @@
+#Tutorial: Create and Manage Windows VMs with Azure PowerShell
+
+#Connect to azure
+Connect-AzAccount
+
+#Create a rg
+New-AzResourceGroup -name rg-thomas-000 -location CanadaCentral
+
+#Create a vm
+$cred = Get-Credential
+
+New-AzVm -ResourceGroupName rg-thomas-000 -Name vmthomas000 -Location "EastUS"-VirtualNetworkName "myVnet"-SubnetName "mySubnet" -SecurityGroupName "myNetworkSecurityGroup" -PublicIpAddressName "myPublicIpAddress" -Credential $cred
+
+#connect to vm
+Get-AzPublicIpAddress -ResourceGroupName rg-thomas-000  | Select IpAddress
+mstsc /v:<publicIpAddress>
+
+#can also use Get-AzRemoteDesktopFile command
+Get-AzRemoteDesktopFile -ResourceGroupName rg-thomas-000 -Name vmthomas000 -Launch
+
+#clean up
+Remove-AzResourceGroup -name rg-thomas-000  

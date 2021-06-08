@@ -1,0 +1,8 @@
+#container instances powershell
+
+#create a rg
+new-azresourcegroup -Name rg-thomas-000 -Location CanadaCentral
+
+#create a container (group)
+new-azcontainergroup -ResourceGroupName rg-thomas-000 -Name mycontainer -Image mcr.microsoft.com/azuredocs/aci-helloworld -OsType Linux -DnsNameLabel thomas111   
+

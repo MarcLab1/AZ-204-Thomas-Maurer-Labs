@@ -1,0 +1,7 @@
+#Stream logs from a webapp
+az webapp log tail --name webappthomas000 --resource-group rg-thomas-000
+
+#download logs
+az webapp log download --log-file logs.zip --name webappthomas000 --resource-group rg-thomas-000
+
+

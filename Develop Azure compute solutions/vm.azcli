@@ -1,0 +1,55 @@
+#Quickstart: Create a Windows virtual machine in the Azure portal (much funner in cli, so we'll do it that way)
+
+Creating a VM behind the scenes
+•	Create Resource group
+•	Create Virtual network within RG (/16).  Also create a subnet (/24)
+•	Create NSG around the subnet to secure the subnet level (apply the nsg to the subnet in the virtual network > subnet blade)
+•	Create storage account for diagnostics (storage v2, LRS)
+•	Create the virtual machine.  Change public inbound ports to none.  We tell the nic to link to the virtual network we created and the subnet in the networking section.  Click none under public ip.  NIC network security group should also be set to none as we already have a nsg on the subnet level so we don’t need one on the nic.  Enable OS guest diagnostics and set the storage account created previously instead of creating a new one.  Under Extensions in the Advanced section, add MS Antimalware.
+•	Create public IP, give it a dns name; Then link it to the nic.  You can do this in the networking blade of the vm or in the nic directly (Select vm > networking > select nic > IP Configurations > selct the IP > associate > select IP then click save)
+•	Add exception to the nsg around the subnet to allow in rdp traffic just from our machine (not the whole internet).  We do this in the networking blade of the vm.  Add inbound port rule >  Source is IP address > IP address if your IPv4 IP address (google what is my ip).  Destination is just the IP address of the vm (NIC Private IP: 172.16.0.4).  RDP Port is 3389.  Priority is 1000.  Name is rdp_test001
+
+#Create a rg
+az group create --name rg-thomas-000 --location CanadaCentral
+
+#Create a vnet
+az network vnet create --name vnet000 --resource-group rg-thomas-000
+
+#Create a subnet
+az network vnet subnet create --name subnet1 --vnet-name vnet000 --resource-group rg-thomas-000 --address-prefixes 10.0.0.0/24
+
+#Nsg time
+az network nsg create --name nsg1 --resource-group rg-thomas-000  
+
+#update the subnet
+#nsg is either applied at the subnet level OR at the nic level
+az network vnet subnet update --name subnet1 --vnet-name vnet000 --resource-group rg-thomas-000 --network-security-group nsg1 
+
+#create a storage account (If using managed disks, Azure handles the Storage account automatically)
+az storage account create --resource-group rg-thomas-000 --name storageacc000 --sku Standard_LRS
+
+#Create the vm - no public ip, no nsg (the nic is created automatically)
+az vm create --name vmthomasmy00033 --resource-group rg-thomas-000 --image UbuntuLTS --generate-ssh-keys --vnet-name vnet000 --subnet subnet1 --nsg "" --public-ip-address ""  
+
+#create public ip
+az network public-ip create --name publicip000 --resource-group rg-thomas-000
+
+#link to the nic of vm
+az network nic list
+az network nic ip-config list --nic-name vmthomasmy00033VMNic --resource-group rg-thomas-000 --output table
+az network nic ip-config update --name ipconfigvmthomasmy00033 --nic-name vmthomasmy00033VMNic --resource-group rg-thomas-000 --public-ip-address publicip000 
+
+#allow traffic port 22 via the nsg
+az network nsg rule create --name rule22 --resource-group rg-thomas-000 --nsg-name nsg1 --priority 100 --source-port-ranges 22 --access Allow 
+
+#login to vm
+ssh az ip.address.0.0
+
+#proof that I am logged into vm
+hostname
+
+#clean up
+az group delete --name rg-thomas-000 --dns-name dns000
+
+#get all image types
+az vm image list --output table

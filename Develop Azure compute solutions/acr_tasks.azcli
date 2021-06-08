@@ -1,0 +1,45 @@
+#Tutorial: Build and deploy container images in the cloud with Azure Container Registry Tasks
+
+#clone the image to local folder
+git clone https://github.com/marclab1/acr-build-helloworld-node
+cd acr-build-helloworld-node
+
+#set some variables because we are lazy
+set rg=rg-thomas-000
+set acr=acrthomas000
+
+#create acr
+az acr create --resource-group %rg% --name %acr% --sku Standard --location CanadaCentral 
+
+#build image into acr
+#this builds and deploys the image in 1 command
+az acr build --registry %acr% --image helloacrtasks:v1 .
+
+#View repositories and images inside acr
+az acr repository list --name %acr%
+
+#Show tags inside repository image
+az acr repository show-tags --name %acr% --repository helloacrtasks
+
+#Delete container image inside repo
+az acr repository delete --name %acr% --image helloacrtasks:v33
+
+#create a keyvault
+set kv=keyvault000my
+az keyvault create --resource-group %rg% --name %kv%
+
+#Enable the registry admin account 
+acr-build-helloworld-node>az acr update --name acrthomas000 --admin-enabled true
+
+#get the username and pass of the admin account
+az acr credential show --name acrthomas000
+set pass=az acr credential show --name acrthomas000 --query passwords[0].value
+set user=az acr credential show --name acrthomas000 --query username
+
+#Deploy a container with Azure CLI
+az container create --resource-group rg-thomas-000 --name acrthomas000 --image acrthomas000.azurecr.io/hellworld:v22 --registry-login-server acrthomas000.azurecr.io --ip-address Public --location CanadaCentral --registry-username acrthomas000 --registry-password 643896739874
+
+#Create a replicated region for an Azure Container Registry
+az acr replication create --registry acrthomas000 --location japaneast
+
+#delete all this crap

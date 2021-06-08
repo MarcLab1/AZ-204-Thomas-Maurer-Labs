@@ -1,0 +1,39 @@
+#Docker commands 
+#Help
+Docker –help
+Docker build --help
+
+#Build (a local image before pushing to Azure) – dot at the end means the source image is in the current working folder
+docker build –t node-docker-demo:latest .
+
+#Tag and image (before pushing)
+docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+docker tag glennc/fancypants:latest marclab1/fancypants:v1
+
+#Push
+docker push marclab1/hello-seattle
+
+#Docker Login
+Docker login  -u marclab1 –p xxxxxxxx
+
+#List images in local docker
+Docker images (or docker image ls)
+
+#Remove local docker images
+Docker images rm –f marclab1/fancypants
+
+#Run locally
+docker run --name MyUbunti1 -it Ubuntu
+
+#Show running containers
+docker ps
+
+#Pause/Unpause a container
+docker pause fde9e1433946      //fde9e1433946 is the container id name from the previous command
+docker unpause fde9e1433946
+
+#Kill a container
+Docker kill fde9e1433946
+
+#Edit a container inside VS Code
+Navigate to the local folder using cd, then code ..

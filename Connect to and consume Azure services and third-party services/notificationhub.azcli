@@ -1,0 +1,2 @@
+Az notification-hub namespace create –resource-group rg-thomas-000 –name notificationnamespace000 –location CanadaCentral –sku Basic
+az notification-hub create –resource-group rg-thomas-000 –namespace-name notificationnamespace000 –location CanadaCentral –name notificationhub000

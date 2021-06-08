@@ -1,0 +1,6 @@
+
+#Create the namespace
+Az events namespace create –name namespace1121 –resource-group rg-event-1121 –l canadacentral –sku Basic
+
+#Create the Event Hub
+Az eventhubs eventhub create –name eventhub1121 –namespace rg-event-1121 –message-retention 1

@@ -1,0 +1,67 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [
+
+ {
+    "namespace": "marclab1",
+    "members": {
+      "uniqueName": {
+        "parameters": [
+          {
+            "name": "namePrefix",
+            "type": "string"
+          }
+        ],
+        "output": {
+          "type": "string",
+          "value": "[concat(toLower(parameters('namePrefix')), uniqueString(resourceGroup().id))]"
+        }
+      },
+
+      "uniqueNameTwo": {
+        "parameters": [
+          
+        ],
+        "output": {
+          "type": "string",
+          "value": "htllo123"
+        }
+      },
+
+      "uniqueNameThree": {
+        "parameters": [
+          {
+            "name": "namePrefix",
+            "type": "string"
+          }
+        ],
+        "output": {
+          "value": "[concat(parameters('namePrefix'), uniqueString('11223'))]",
+          "type": "string"
+        }
+      }
+    }
+  }
+    ],
+    "variables": {},
+    "resources": [
+
+      {
+          "name": "[marclab1.uniqueNameThree('123')]",
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2019-06-01",
+          "tags": {
+              "displayName": "[marclab1.uniqueNameThree('123')]"
+          },
+          "location": "[resourceGroup().location]",
+          "kind": "StorageV2",
+          "sku": {
+              "name": "Premium_LRS",
+              "tier": "Premium"
+          }
+      }
+    ],
+    "outputs": {}
+}

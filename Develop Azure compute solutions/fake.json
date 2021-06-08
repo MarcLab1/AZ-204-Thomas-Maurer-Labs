@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+        "dogfirstname":{
+                "type": "string",
+                "defaultValue" : "george"
+                },
+        "doglastname":{
+              
+                "type":"string"
+            }
+
+    },
+    "functions": [
+    {
+    "namespace": "marclab1",
+    "members": {
+      "uniqueName": {
+        "parameters": [
+          {
+            "name": "namePrefix",
+            "type": "string"
+          }
+        ],
+        "output": {
+          "type": "string",
+          "value": "[concat(toLower(parameters('namePrefix')), uniqueString(resourceGroup().id))]"
+        }
+      }
+    }
+    }
+    ],
+    "variables": {
+
+        "dog":"doggo 123",
+        "cat": "suzy the catto"
+
+    },
+    "resources": [],
+    "outputs": {
+
+         "output1": {
+            "type": "string",
+            "value": "[parameters('dogfirstname')]"
+        },
+        "output2": {
+            "type": "string",
+            "value": "[marclab1.uniqueName('hello')]"
+        }
+
+    }
+}

@@ -1,0 +1,10 @@
+az storage blob copy (runs asynchronously)
+az storage blob copy start-batch 
+
+az storage blob copy start 
+--account-name stthomas000 
+--destination-container container2 
+--destination-blob "log.TXT" 
+--source-account-name stthomas000 
+--account-key zwGBGxUO9WTrKwhAI0yx+Sq8LlhzTsxOVawXkR60dP3RlqxfqW/6+J2lPGcUxByZDUVfipMaAYbdemYHJj3SFg== //account-key and account-name are the source account(s)
+--source-container container1 --source-blob log.TXT
